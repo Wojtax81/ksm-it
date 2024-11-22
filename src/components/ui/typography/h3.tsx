@@ -7,7 +7,7 @@ type Props = {
 }
 
 const H3 = ({ className, children }: Props) => {
-	return <h3 className={cn('scroll-m-20 font-heading text-2xl font-semibold', className)}>{children}</h3>
+	return <h3 className={cn('font-heading scroll-m-20 text-xl font-semibold md:text-2xl', className)}>{children}</h3>
 }
 
 export default H3

@@ -1,5 +1,10 @@
 import '../globals.css'
 
+import LanguageChanger from '@/components/language-changer'
+import { Footer } from '@/components/layout/footer'
+import Navbar from '@/components/layout/navbar'
+import { SVGGradientEmbeds } from '@/components/svg-gradient-embeds'
+import { Toaster } from '@/components/ui/sonner'
 import { Locales, i18nConfig } from '@/i18nConfig'
 import * as demo from '@/sanity/lib/demo'
 import { sanityFetch } from '@/sanity/lib/fetch'
@@ -12,7 +17,6 @@ import { Sen } from 'next/font/google'
 import { draftMode } from 'next/headers'
 import { notFound } from 'next/navigation'
 import AlertBanner from '../../components/alert-banner'
-import LanguageChanger from '@/components/language-changer'
 
 export async function generateMetadata(): Promise<Metadata> {
 	const settings = await sanityFetch({
@@ -68,12 +72,20 @@ export default async function RootLayout({
 			<body>
 				{isDraftMode && <AlertBanner />}
 
-				{children}
+				<Navbar />
+
+				<div className='relative z-20 rounded-b-3xl bg-background shadow-[0_60px_80px_0px] shadow-foreground'>
+					{children}
+				</div>
+
+				<div className='pointer-events-none relative -z-20 h-[680px] select-none md:h-[500px] lg:h-[600px]' />
+				<Footer />
 
 				{isDraftMode && <VisualEditing />}
+				<Toaster />
 				<SpeedInsights />
-
-				<LanguageChanger className='fixed top-2 left-2 bg-white/50 border rounded-md px-2 py-1 backdrop-blur-sm' />
+				<LanguageChanger className='fixed left-2 top-2 rounded-md border bg-white/50 px-2 py-1 backdrop-blur-sm' />
+				<SVGGradientEmbeds />
 			</body>
 		</html>
 	)

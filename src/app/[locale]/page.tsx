@@ -1,7 +1,12 @@
 import { Locales } from '@/i18nConfig'
 import { sanityFetch } from '@/sanity/lib/fetch'
 import { homeQuery } from '@/sanity/lib/queries'
-import { HeroSection } from './components/sections/hero'
+import { HeroSection } from './components/layout/hero'
+import { ServicesSection } from './components/layout/services'
+import { HowItWorksSection } from './components/layout/how-it-works'
+import { FAQSection } from './components/layout/faq'
+import { ContactSection } from './components/layout/contact'
+import { BenefitsSection } from './components/layout/benefits'
 
 type Props = {
 	params: { locale: Locales }
@@ -24,16 +29,16 @@ export default async function Page({ params }: Props) {
 			<div className='container-fill grid-container overflow-hidden bg-gradient-primary'>
 				<HeroSection translations={home.hero} />
 
-				{/* Our Services */}
+				<ServicesSection />
 			</div>
 
-			{/* How It Works */}
+			<HowItWorksSection />
 
-			{/* Benefits */}
+			<BenefitsSection />
 
-			{/* FAQ */}
+			<FAQSection />
 
-			{/* Contact */}
+			<ContactSection />
 		</main>
 	)
 }

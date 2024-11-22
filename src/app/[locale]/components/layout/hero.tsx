@@ -1,12 +1,14 @@
 import { Icons } from '@/components/icons'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
 import H1 from '@/components/ui/typography/h1'
 import { fallbackContent } from '@/lib/fallbackContent'
+import { cn } from '@/lib/utils'
 import { BlocksIcon } from 'lucide-react'
+import Link from 'next/link'
+import ServerDecoSVG from '../../../../../public/assets/server-double.svg'
 import { Home } from '../../../../../sanity.types'
 import { TrustedBy } from '../../../../components/trusted-by-slider'
-import ServerDecoSVG from '../../../../../public/assets/server-double.svg'
 
 type Props = {
 	translations: Home['hero']
@@ -42,12 +44,17 @@ export const HeroSection = ({ translations }: Props) => {
 					{content.heading}
 				</H1>
 				<p className='max-w-xl text-base text-primary-foreground md:text-lg'>{content.subtitle}</p>
-				<Button variant={'secondaryGradient'} size={'lg'} className='mt-8 h-auto gap-3 py-1 pl-1 pr-6 md:mt-12'>
+				<Link
+					href='/#contact'
+					className={cn(
+						buttonVariants({ variant: 'secondaryGradient', size: 'lg' }),
+						'mt-8 h-auto gap-3 py-1 pl-1 pr-6 md:mt-12'
+					)}>
 					<div className='flex items-center justify-center rounded-full bg-gradient-to-b from-[#434343] to-[#000000] p-3 text-white'>
 						<Icons.Rocket className='!size-5' />
 					</div>
 					<span className='text-base font-medium leading-[1.1]'>{content.cta}</span>
-				</Button>
+				</Link>
 			</div>
 
 			<TrustedBy className='relative z-10' />

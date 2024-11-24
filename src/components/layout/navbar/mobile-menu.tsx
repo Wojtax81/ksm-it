@@ -2,18 +2,18 @@
 
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { siteConfig } from '@/config/site'
+import { cn } from '@/lib/utils'
 import { Squeeze as Hamburger } from 'hamburger-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useSelectedLayoutSegment } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { useMediaQuery } from 'usehooks-ts'
-import { NAV_LINKS } from '.'
-import { cn } from '@/lib/utils'
-import { usePathname } from 'next/navigation'
+import { NavLink } from './get-links'
 
-export const MobileMenu = ({ isNavActive }: { isNavActive: boolean }) => {
+export const MobileMenu = ({ isNavActive, links }: { isNavActive: boolean; links: NavLink[] }) => {
 	const mdBreakpoint = useMediaQuery('(min-width: 768px)')
-	const pathname = usePathname()
+	const layoutSegment = useSelectedLayoutSegment()
 
 	const [isMd, setIsMd] = useState(false)
 	const [isOpen, setIsOpen] = useState(false)
@@ -33,7 +33,7 @@ export const MobileMenu = ({ isNavActive }: { isNavActive: boolean }) => {
 					<div
 						className={cn(
 							'z-50 md:hidden',
-							pathname === '/' || isNavActive ? 'text-primary-foreground' : 'text-foreground'
+							layoutSegment === null || isNavActive ? 'text-primary-foreground' : 'text-foreground'
 						)}>
 						<Hamburger toggled={isOpen} toggle={toggle => setIsOpen(toggle)} size={24} label='Open menu' rounded />
 					</div>
@@ -55,7 +55,7 @@ export const MobileMenu = ({ isNavActive }: { isNavActive: boolean }) => {
 					</SheetHeader>
 
 					<div className='mt-12 flex flex-col gap-2'>
-						{NAV_LINKS.map((link, index) => (
+						{links.map((link, index) => (
 							<React.Fragment key={index}>
 								<Link
 									onClick={() => setIsOpen(false)}

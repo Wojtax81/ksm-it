@@ -5,6 +5,9 @@ import post from './documents/post'
 import author from './documents/author'
 import sectionHeading from './objects/section-heading'
 import titleDescription from './objects/title-description'
+import message from './documents/message'
+import faq from './documents/faq'
+import faqAnswer from './objects/faq-answer'
 
 export const schemaTypes: SchemaTypeDefinition<any>[] = [
 	// Singletons
@@ -13,7 +16,10 @@ export const schemaTypes: SchemaTypeDefinition<any>[] = [
 	// Documents
 	post,
 	author,
+	message,
+	faq,
 	// Objects
 	sectionHeading,
-	titleDescription
+	titleDescription,
+	faqAnswer
 ]

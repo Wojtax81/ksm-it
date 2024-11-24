@@ -33,3 +33,18 @@ export const postQuery = defineQuery(`
     ${postFields}
   }
 `)
+
+export const messagesQuery = defineQuery(`
+  *[_type == "message"] {
+    key,
+    "value": value[_key == $language][0].value
+  }
+`)
+
+// Query that will fetch FAQs (faq), questions and answers are internationalized
+export const faqQuery = defineQuery(`
+  *[_type == "faq"] {
+    "question": question[_key == $language][0].value,
+    "answer": answer[_key == $language][0].value
+  }
+`)

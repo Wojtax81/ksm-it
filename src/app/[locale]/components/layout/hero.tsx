@@ -24,7 +24,7 @@ export const HeroSection = ({ translations }: Props) => {
 					<BlocksIcon className='size-3.5' />
 					<span>{badge}</span>
 				</Badge>
-				<H1 className='mb-3 mt-4 max-w-4xl bg-gradient-to-b from-primary-foreground from-70% to-[#A9B2E1] bg-clip-text py-2.5 text-transparent md:mb-4'>
+				<H1 className='mb-3 mt-4 max-w-5xl text-balance bg-gradient-to-b from-primary-foreground from-70% to-[#A9B2E1] bg-clip-text py-2.5 text-transparent [word-break:break-word] md:mb-4'>
 					{heading}
 				</H1>
 				<p className='max-w-xl text-base text-primary-foreground md:text-lg'>{subtitle}</p>
@@ -41,7 +41,7 @@ export const HeroSection = ({ translations }: Props) => {
 				</Link>
 			</div>
 
-			<TrustedBy className='relative z-10' />
+			<TrustedBy label={trustedBy} className='relative z-10' />
 
 			<div className='absolute bottom-0 left-0 z-0 size-[80vw] min-h-[450px] min-w-[450px] translate-x-[-20%] translate-y-[-20%] -rotate-[20deg] opacity-[0.03] md:top-0 xl:size-[65vw]'>
 				<ServerDecoSVG width='100%' height='100%' />

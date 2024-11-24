@@ -2,12 +2,12 @@
 /**
  * This config is used to set up Sanity Studio that's mounted on the `app/(sanity)/studio/[[...tool]]/page.tsx` route
  */
-import { languages } from '@/i18nConfig'
+import { i18nConfig, languages, locales } from '@/i18nConfig'
 import { schemaTypes } from '@/sanity/schemas'
 import home from '@/sanity/schemas/singletons/home'
 import { documentInternationalization } from '@sanity/document-internationalization'
 import { visionTool } from '@sanity/vision'
-import { PluginOptions, defineConfig } from 'sanity'
+import { PluginOptions, defineConfig, defineField } from 'sanity'
 import { unsplashImageAsset } from 'sanity-plugin-asset-source-unsplash'
 import { defineDocuments, defineLocations, presentationTool, type DocumentLocation } from 'sanity/presentation'
 import { structureTool } from 'sanity/structure'
@@ -16,6 +16,7 @@ import { resolveHref } from './src/sanity/lib/utils'
 import { assistWithPresets } from './src/sanity/plugins/assist'
 import { pageStructure, singletonPlugin } from './src/sanity/plugins/settings'
 import settings from './src/sanity/schemas/singletons/settings'
+import { internationalizedArray } from 'sanity-plugin-internationalized-array'
 
 const homeLocation = {
 	title: 'Home',
@@ -34,6 +35,10 @@ export default defineConfig({
 			// Required configuration
 			supportedLanguages: languages,
 			schemaTypes: ['home']
+		}),
+		internationalizedArray({
+			languages: languages,
+			fieldTypes: ['string', 'text', 'number', 'faqAnswer']
 		}),
 		presentationTool({
 			resolve: {

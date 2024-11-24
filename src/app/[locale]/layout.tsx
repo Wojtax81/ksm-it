@@ -17,6 +17,9 @@ import { Sen } from 'next/font/google'
 import { draftMode } from 'next/headers'
 import { notFound } from 'next/navigation'
 import AlertBanner from '../../components/alert-banner'
+import Providers from '@/components/layout/providers'
+import { Suspense } from 'react'
+import getIntl from '@/intl'
 
 export async function generateMetadata(): Promise<Metadata> {
 	const settings = await sanityFetch({
@@ -64,28 +67,24 @@ export default async function RootLayout({
 
 	if (!i18nConfig.locales.includes(locale)) notFound()
 
-	const data = await sanityFetch({ query: settingsQuery })
+	// const data = await sanityFetch({ query: settingsQuery })
+	const intl = await getIntl(locale)
 	const { isEnabled: isDraftMode } = await draftMode()
 
 	return (
 		<html lang='en' className={`${sen.variable}`}>
 			<body>
-				{isDraftMode && <AlertBanner />}
+				<Providers locale={locale} isDraftMode={isDraftMode} messages={intl.messages}>
+					<Suspense>
+						<Navbar />
+					</Suspense>
 
-				<Navbar />
+					<div className='relative z-20 rounded-b-3xl bg-background shadow-[0_60px_80px_0px] shadow-foreground'>
+						{children}
+					</div>
 
-				<div className='relative z-20 rounded-b-3xl bg-background shadow-[0_60px_80px_0px] shadow-foreground'>
-					{children}
-				</div>
-
-				<div className='pointer-events-none relative -z-20 h-[680px] select-none md:h-[500px] lg:h-[600px]' />
-				<Footer />
-
-				{isDraftMode && <VisualEditing />}
-				<Toaster />
-				<SpeedInsights />
-				<LanguageChanger className='fixed left-2 top-2 z-50 rounded-md border bg-white/50 px-2 py-1 backdrop-blur-sm' />
-				<SVGGradientEmbeds />
+					<Footer locale={locale} />
+				</Providers>
 			</body>
 		</html>
 	)

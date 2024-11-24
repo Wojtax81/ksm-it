@@ -2,13 +2,14 @@ import { Marquee } from '@/components/marquee'
 import { cn } from '@/lib/utils'
 
 type Props = {
+	label: string
 	className?: string
 }
 
-export const TrustedBy = ({ className }: Props) => {
+export const TrustedBy = ({ className, label }: Props) => {
 	return (
 		<section className={cn('flex flex-col items-center gap-y-6', className)}>
-			<p className='text text-sm text-primary-foreground/75'>Trusted By 500+ Satisfied Customers</p>
+			<p className='text text-sm text-primary-foreground/75'>{label}</p>
 
 			<Marquee className='[&_ul]:gap-6 md:[&_ul]:gap-12 lg:[&_ul]:gap-16' speed={1}>
 				{TRUSTED_BY.map(brand => (

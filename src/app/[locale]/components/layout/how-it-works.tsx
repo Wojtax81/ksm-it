@@ -1,41 +1,29 @@
+import { PlaceholderImage } from '@/components/placeholder-image'
 import { SectionHeading } from '@/components/section-heading'
 import H3 from '@/components/ui/typography/h3'
 import { cn } from '@/lib/utils'
+import { urlForImage } from '@/sanity/lib/utils'
 import * as Tabs from '@radix-ui/react-tabs'
 import { ListOrderedIcon } from 'lucide-react'
+import Image from 'next/image'
+import { DeepRequired } from 'react-hook-form'
+import { Home } from '../../../../../sanity.types'
 
-type Props = {}
+type Props = {
+	translations: DeepRequired<Home>['howItWorks']
+}
 
-const HOW_IT_WORKS = [
-	{
-		title: 'Consultation',
-		description:
-			'We start by discussing your specific goals and needs, assessing your current setup to identify areas for improvement and potential solutions.',
-		image: 'red'
-	},
-	{
-		title: 'Solution Design',
-		description:
-			'Based on our findings, we create a tailored plan that includes system optimization, migration strategies, and security enhancements aligned with your business.',
-		image: 'green'
-	},
-	{
-		title: 'Implementation & Support',
-		description:
-			'Our team implements the solutions, ensuring everything runs smoothly, with continuous monitoring and support to maintain optimal performance and security.',
-		image: 'blue'
-	}
-]
+export const HowItWorksSection = ({ translations }: Props) => {
+	const { cards, sectionHeading } = translations
 
-export const HowItWorksSection = (props: Props) => {
 	return (
 		<section id='how-it-works' className='scroll-m-20 space-y-12 py-16'>
 			<SectionHeading
 				align='left'
-				heading='How we bring Your vision to life'
-				description='From consultation to ongoing support, we ensure a smooth journey towards a fully optimized and secure system'
+				heading={sectionHeading.title}
+				description={sectionHeading.description}
 				badge={{
-					text: 'How It Works',
+					text: sectionHeading.badge,
 					Icon: ListOrderedIcon
 				}}
 			/>
@@ -43,19 +31,27 @@ export const HowItWorksSection = (props: Props) => {
 			<div>
 				<Tabs.Root defaultValue='tab-1' orientation='horizontal' className='grid gap-6 lg:grid-cols-2'>
 					<Tabs.List className='h-max'>
-						{HOW_IT_WORKS.map((item, index) => (
+						{cards.map((item, index) => (
 							<Tabs.Trigger key={index} value={`tab-${index + 1}`} asChild className={'relative w-full'}>
 								<HowItWorksCard index={index + 1} title={item.title} description={item.description} />
 							</Tabs.Trigger>
 						))}
 					</Tabs.List>
 
-					{HOW_IT_WORKS.map((item, index) => (
+					{cards.map((item, index) => (
 						<Tabs.Content key={index} value={`tab-${index + 1}`}>
-							<div
-								className='flex aspect-[4/3] h-auto w-full items-center justify-center rounded-2xl border bg-secondary lg:aspect-auto lg:h-full lg:w-auto'
-								style={{ backgroundColor: item.image }}>
-								IMG
+							<div className='relative flex aspect-[4/3] h-auto w-full items-center justify-center overflow-hidden rounded-2xl border bg-secondary lg:aspect-auto lg:h-full lg:w-auto'>
+								{item.image?.asset._ref ? (
+									<Image
+										className='absolute inset-0 h-full w-full object-cover'
+										width={1000}
+										height={1000}
+										alt={''}
+										src={urlForImage(item.image)?.height(1000).width(1000).url() as string}
+									/>
+								) : (
+									<PlaceholderImage className='absolute inset-0 size-full border-none' />
+								)}
 							</div>
 						</Tabs.Content>
 					))}

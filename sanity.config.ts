@@ -2,21 +2,20 @@
 /**
  * This config is used to set up Sanity Studio that's mounted on the `app/(sanity)/studio/[[...tool]]/page.tsx` route
  */
+import { languages } from '@/i18nConfig'
+import { schemaTypes } from '@/sanity/schemas'
+import home from '@/sanity/schemas/singletons/home'
+import { documentInternationalization } from '@sanity/document-internationalization'
 import { visionTool } from '@sanity/vision'
 import { PluginOptions, defineConfig } from 'sanity'
 import { unsplashImageAsset } from 'sanity-plugin-asset-source-unsplash'
-import { presentationTool, defineDocuments, defineLocations, type DocumentLocation } from 'sanity/presentation'
+import { defineDocuments, defineLocations, presentationTool, type DocumentLocation } from 'sanity/presentation'
 import { structureTool } from 'sanity/structure'
-import { documentInternationalization } from '@sanity/document-internationalization'
 import { apiVersion, dataset, projectId, studioUrl } from './src/sanity/lib/api'
-import { pageStructure, singletonPlugin } from './src/sanity/plugins/settings'
-import { assistWithPresets } from './src/sanity/plugins/assist'
-import author from './src/sanity/schemas/documents/author'
-import post from './src/sanity/schemas/documents/post'
-import settings from './src/sanity/schemas/singletons/settings'
 import { resolveHref } from './src/sanity/lib/utils'
-import home from '@/sanity/schemas/singletons/home'
-import { languages } from '@/i18nConfig'
+import { assistWithPresets } from './src/sanity/plugins/assist'
+import { pageStructure, singletonPlugin } from './src/sanity/plugins/settings'
+import settings from './src/sanity/schemas/singletons/settings'
 
 const homeLocation = {
 	title: 'Home',
@@ -28,14 +27,7 @@ export default defineConfig({
 	projectId,
 	dataset,
 	schema: {
-		types: [
-			// Singletons
-			settings,
-			home,
-			// Documents
-			post,
-			author
-		]
+		types: schemaTypes
 	},
 	plugins: [
 		documentInternationalization({

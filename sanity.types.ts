@@ -201,63 +201,6 @@ export type Settings = {
   };
 };
 
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top?: number;
-  bottom?: number;
-  left?: number;
-  right?: number;
-};
-
-export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x?: number;
-  y?: number;
-  height?: number;
-  width?: number;
-};
-
-export type SanityImageAsset = {
-  _id: string;
-  _type: "sanity.imageAsset";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  originalFilename?: string;
-  label?: string;
-  title?: string;
-  description?: string;
-  altText?: string;
-  sha1hash?: string;
-  extension?: string;
-  mimeType?: string;
-  size?: number;
-  assetId?: string;
-  uploadId?: string;
-  path?: string;
-  url?: string;
-  metadata?: SanityImageMetadata;
-  source?: SanityAssetSourceData;
-};
-
-export type SanityAssetSourceData = {
-  _type: "sanity.assetSourceData";
-  name?: string;
-  id?: string;
-  url?: string;
-};
-
-export type SanityImageMetadata = {
-  _type: "sanity.imageMetadata";
-  location?: Geopoint;
-  dimensions?: SanityImageDimensions;
-  palette?: SanityImagePalette;
-  lqip?: string;
-  blurHash?: string;
-  hasAlpha?: boolean;
-  isOpaque?: boolean;
-};
-
 export type SanityAssistInstructionTask = {
   _type: "sanity.assist.instructionTask";
   path?: string;
@@ -415,13 +358,167 @@ export type Home = {
     badge?: string;
     trustedBy?: string;
   };
+  services?: {
+    sectionHeading?: SectionHeading;
+    cards?: {
+      basisConsulting?: TitleDescription;
+      s4Hana?: TitleDescription;
+      security?: TitleDescription;
+    };
+  };
+  howItWorks?: {
+    sectionHeading?: SectionHeading;
+    cards?: Array<{
+      title?: string;
+      description?: string;
+      image?: {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+      };
+      _key: string;
+    }>;
+  };
+  benefits?: {
+    sectionHeading?: SectionHeading;
+    bento?: {
+      security?: TitleDescription;
+      efficiency?: TitleDescription;
+      scalability?: TitleDescription;
+      support?: TitleDescription;
+      cta?: string;
+    };
+  };
+  faq?: {
+    sectionHeading?: SectionHeading;
+  };
+  contact?: {
+    sectionHeading?: SectionHeading;
+    details?: {
+      phone?: {
+        title?: string;
+        contacts?: Array<string>;
+      };
+      email?: {
+        title?: string;
+        contacts?: Array<string>;
+      };
+      address?: {
+        title?: string;
+        contacts?: Array<string>;
+      };
+    };
+    form?: {
+      title?: string;
+      fields?: {
+        name?: {
+          label?: string;
+          error?: string;
+        };
+        phone?: {
+          label?: string;
+          error?: string;
+        };
+        email?: {
+          label?: string;
+          error?: string;
+        };
+        message?: {
+          label?: string;
+          error?: string;
+        };
+      };
+      privacyPolicy?: string;
+      submit?: string;
+      notification?: {
+        success?: string;
+        error?: string;
+      };
+    };
+  };
+};
+
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top?: number;
+  bottom?: number;
+  left?: number;
+  right?: number;
+};
+
+export type SanityImageHotspot = {
+  _type: "sanity.imageHotspot";
+  x?: number;
+  y?: number;
+  height?: number;
+  width?: number;
+};
+
+export type SanityImageAsset = {
+  _id: string;
+  _type: "sanity.imageAsset";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  originalFilename?: string;
+  label?: string;
+  title?: string;
+  description?: string;
+  altText?: string;
+  sha1hash?: string;
+  extension?: string;
+  mimeType?: string;
+  size?: number;
+  assetId?: string;
+  uploadId?: string;
+  path?: string;
+  url?: string;
+  metadata?: SanityImageMetadata;
+  source?: SanityAssetSourceData;
+};
+
+export type SanityAssetSourceData = {
+  _type: "sanity.assetSourceData";
+  name?: string;
+  id?: string;
+  url?: string;
+};
+
+export type SanityImageMetadata = {
+  _type: "sanity.imageMetadata";
+  location?: Geopoint;
+  dimensions?: SanityImageDimensions;
+  palette?: SanityImagePalette;
+  lqip?: string;
+  blurHash?: string;
+  hasAlpha?: boolean;
+  isOpaque?: boolean;
+};
+
+export type TitleDescription = {
+  _type: "titleDescription";
+  title?: string;
+  description?: string;
+};
+
+export type SectionHeading = {
+  _type: "sectionHeading";
+  badge?: string;
+  title?: string;
+  description?: string;
 };
 
 export type InternationalizedArrayReference = Array<{
   _key: string;
 } & InternationalizedArrayReferenceValue>;
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Post | Author | Slug | Settings | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | SanityAssistInstructionTask | SanityAssistTaskStatus | SanityAssistSchemaTypeAnnotations | SanityAssistOutputType | SanityAssistOutputField | SanityAssistInstructionContext | AssistInstructionContext | SanityAssistInstructionUserInput | SanityAssistInstructionPrompt | SanityAssistInstructionFieldRef | SanityAssistInstruction | SanityAssistSchemaTypeField | TranslationMetadata | InternationalizedArrayReferenceValue | Home | InternationalizedArrayReference;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Post | Author | Slug | Settings | SanityAssistInstructionTask | SanityAssistTaskStatus | SanityAssistSchemaTypeAnnotations | SanityAssistOutputType | SanityAssistOutputField | SanityAssistInstructionContext | AssistInstructionContext | SanityAssistInstructionUserInput | SanityAssistInstructionPrompt | SanityAssistInstructionFieldRef | SanityAssistInstruction | SanityAssistSchemaTypeField | TranslationMetadata | InternationalizedArrayReferenceValue | Home | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | TitleDescription | SectionHeading | InternationalizedArrayReference;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
 // Variable: settingsQuery
@@ -498,6 +595,90 @@ export type HomeQueryResult = {
     cta?: string;
     badge?: string;
     trustedBy?: string;
+  };
+  services?: {
+    sectionHeading?: SectionHeading;
+    cards?: {
+      basisConsulting?: TitleDescription;
+      s4Hana?: TitleDescription;
+      security?: TitleDescription;
+    };
+  };
+  howItWorks?: {
+    sectionHeading?: SectionHeading;
+    cards?: Array<{
+      title?: string;
+      description?: string;
+      image?: {
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+      };
+      _key: string;
+    }>;
+  };
+  benefits?: {
+    sectionHeading?: SectionHeading;
+    bento?: {
+      security?: TitleDescription;
+      efficiency?: TitleDescription;
+      scalability?: TitleDescription;
+      support?: TitleDescription;
+      cta?: string;
+    };
+  };
+  faq?: {
+    sectionHeading?: SectionHeading;
+  };
+  contact?: {
+    sectionHeading?: SectionHeading;
+    details?: {
+      phone?: {
+        title?: string;
+        contacts?: Array<string>;
+      };
+      email?: {
+        title?: string;
+        contacts?: Array<string>;
+      };
+      address?: {
+        title?: string;
+        contacts?: Array<string>;
+      };
+    };
+    form?: {
+      title?: string;
+      fields?: {
+        name?: {
+          label?: string;
+          error?: string;
+        };
+        phone?: {
+          label?: string;
+          error?: string;
+        };
+        email?: {
+          label?: string;
+          error?: string;
+        };
+        message?: {
+          label?: string;
+          error?: string;
+        };
+      };
+      privacyPolicy?: string;
+      submit?: string;
+      notification?: {
+        success?: string;
+        error?: string;
+      };
+    };
   };
 } | null;
 // Variable: heroQuery

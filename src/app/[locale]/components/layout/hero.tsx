@@ -2,48 +2,32 @@ import { Icons } from '@/components/icons'
 import { Badge } from '@/components/ui/badge'
 import { buttonVariants } from '@/components/ui/button'
 import H1 from '@/components/ui/typography/h1'
-import { fallbackContent } from '@/lib/fallbackContent'
 import { cn } from '@/lib/utils'
 import { BlocksIcon } from 'lucide-react'
 import Link from 'next/link'
+import { DeepRequired } from 'react-hook-form'
 import ServerDecoSVG from '../../../../../public/assets/server-double.svg'
 import { Home } from '../../../../../sanity.types'
 import { TrustedBy } from '../../../../components/trusted-by-slider'
 
 type Props = {
-	translations: Home['hero']
-}
-
-const mergeWithFallback = <T extends Record<string, any>>(primary: T, fallback: T): T => {
-	const result: T = { ...primary }
-
-	Object.keys(result).forEach(key => {
-		if (result[key] === null || result[key] === undefined || result[key] === '') {
-			;(result[key] as any) = fallback[key]
-		}
-	})
-
-	return result
+	translations: DeepRequired<Home>['hero']
 }
 
 export const HeroSection = ({ translations }: Props) => {
-	const {
-		home: { hero: fallback }
-	} = fallbackContent
-
-	const content = mergeWithFallback(translations || {}, fallback)
+	const { badge, cta, heading, subtitle, trustedBy } = translations
 
 	return (
 		<header className='relative space-y-16 py-16 md:space-y-20 md:py-20 lg:space-y-24 lg:py-24'>
 			<div className='relative z-10 flex flex-col items-center py-8 text-center md:py-12'>
 				<Badge className='flex items-center gap-2 border-primary-foreground/25 py-1.5 text-sm font-normal leading-none'>
 					<BlocksIcon className='size-3.5' />
-					<span>{content.badge}</span>
+					<span>{badge}</span>
 				</Badge>
 				<H1 className='mb-3 mt-4 max-w-4xl bg-gradient-to-b from-primary-foreground from-70% to-[#A9B2E1] bg-clip-text py-2.5 text-transparent md:mb-4'>
-					{content.heading}
+					{heading}
 				</H1>
-				<p className='max-w-xl text-base text-primary-foreground md:text-lg'>{content.subtitle}</p>
+				<p className='max-w-xl text-base text-primary-foreground md:text-lg'>{subtitle}</p>
 				<Link
 					href='/#contact'
 					className={cn(
@@ -53,7 +37,7 @@ export const HeroSection = ({ translations }: Props) => {
 					<div className='flex items-center justify-center rounded-full bg-gradient-to-b from-[#434343] to-[#000000] p-3 text-white'>
 						<Icons.Rocket className='!size-5' />
 					</div>
-					<span className='text-base font-medium leading-[1.1]'>{content.cta}</span>
+					<span className='text-base font-medium leading-[1.1]'>{cta}</span>
 				</Link>
 			</div>
 

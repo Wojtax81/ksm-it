@@ -7,6 +7,7 @@ import { HowItWorksSection } from './components/layout/how-it-works'
 import { FAQSection } from './components/layout/faq'
 import { ContactSection } from './components/layout/contact'
 import { BenefitsSection } from './components/layout/benefits'
+import { fallbackTranslations } from '@/lib/fallbackContent'
 
 type Props = {
 	params: { locale: Locales }
@@ -24,21 +25,23 @@ export default async function Page({ params }: Props) {
 		return <p>There was a problem</p>
 	}
 
+	const content = fallbackTranslations('home', home)
+
 	return (
 		<main className='grid-container min-h-screen'>
 			<div className='container-fill grid-container overflow-hidden bg-gradient-primary'>
-				<HeroSection translations={home.hero} />
+				<HeroSection translations={content.hero} />
 
-				<ServicesSection />
+				<ServicesSection translations={content.services} />
 			</div>
 
-			<HowItWorksSection />
+			<HowItWorksSection translations={content.howItWorks} />
 
-			<BenefitsSection />
+			<BenefitsSection translations={content.benefits} />
 
-			<FAQSection />
+			<FAQSection translations={content.faq} />
 
-			<ContactSection />
+			<ContactSection translations={content.contact} />
 		</main>
 	)
 }

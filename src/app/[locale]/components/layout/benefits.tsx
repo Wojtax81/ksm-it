@@ -4,20 +4,30 @@ import H3 from '@/components/ui/typography/h3'
 import { cn } from '@/lib/utils'
 import { TrophyIcon } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
+import { DeepRequired } from 'react-hook-form'
 import Wordmark from '../../../../../public/assets/brand/wordmark.svg'
+import { Home } from '../../../../../sanity.types'
 
-type Props = {}
+type Props = {
+	translations: DeepRequired<Home>['benefits']
+}
 
-export const BenefitsSection = (props: Props) => {
+export const BenefitsSection = ({ translations }: Props) => {
+	const {
+		bento: { cta, efficiency, scalability, security, support },
+		sectionHeading
+	} = translations
+
 	return (
 		<section className='py-16'>
 			<SectionHeading
 				align='center'
-				heading="Elevate Your System for What's Next"
-				description="Achieve a system that's always ready, always secure, and built to grow with you."
+				heading={sectionHeading.title}
+				description={sectionHeading.description}
 				badge={{
-					text: 'Benefits',
+					text: sectionHeading.badge,
 					Icon: TrophyIcon
 				}}
 				className='mb-12'
@@ -41,11 +51,7 @@ export const BenefitsSection = (props: Props) => {
 					<div className='absolute right-[10%] top-[-40%] h-[240px] w-[140px] rotate-45 rounded-full bg-primary-foreground/25 blur-[40px]' />
 				</Card>
 				<Card className='flex flex-wrap-reverse items-center gap-x-12 md:col-[1/2] md:row-[2/4] md:flex-col-reverse md:justify-between lg:col-[1/2] lg:row-[1/3]'>
-					<CardHeading
-						heading='Enhanced Security'
-						description='Keep your system safe with constant monitoring and advanced threat protection.'
-						className='max-w-xs pt-4'
-					/>
+					<CardHeading heading={security.title} description={security.description} className='max-w-xs pt-4' />
 					<div className='relative mx-auto size-[150px] md:static'>
 						<Image
 							src='/images/benefits/benefits-security.png'
@@ -58,8 +64,8 @@ export const BenefitsSection = (props: Props) => {
 				</Card>
 				<Card className='flex flex-col items-start gap-x-16 gap-y-4 max-lg:pb-0 sm:max-md:flex-row sm:max-md:items-center sm:max-md:justify-between md:col-[2/3] md:row-[3/5] lg:col-[2/4] lg:row-[1/2] lg:flex-row-reverse lg:items-center lg:justify-between lg:gap-x-4 lg:py-0 lg:pl-0 xl:gap-x-8'>
 					<CardHeading
-						heading='Future-Ready Scalability'
-						description='Easily adapt as your business grows with flexible, scalable solutions that make expanding your system simple and seamless.'
+						heading={scalability.title}
+						description={scalability.description}
 						className='lg:[&>p]:max-w-2xl'
 					/>
 
@@ -74,11 +80,7 @@ export const BenefitsSection = (props: Props) => {
 					</div>
 				</Card>
 				<Card className='flex flex-col justify-end pt-[150px] sm:max-md:py-12 md:col-[1/2] md:row-[4/5] md:pt-[150px] lg:col-[4/5] lg:row-[2/4]'>
-					<CardHeading
-						heading='Reliable Support'
-						description='Rely on proactive support to prevent issues before they arise, ensuring consistent performance and minimized downtime.'
-						className='sm:max-md:max-w-xs'
-					/>
+					<CardHeading heading={support.title} description={support.description} className='sm:max-md:max-w-xs' />
 
 					<Image
 						src='/images/benefits/benefits-support.png'
@@ -90,11 +92,7 @@ export const BenefitsSection = (props: Props) => {
 					<div className='absolute inset-0 z-10 size-full bg-gradient-to-t from-secondary from-25% to-secondary/0 sm:max-md:bg-gradient-to-r lg:opacity-0' />
 				</Card>
 				<Card className='pt-[250px] md:col-span-full md:row-[5/6] md:py-12 lg:col-[1/4] lg:row-[3/4]'>
-					<CardHeading
-						heading='Improved Efficiency'
-						description='Experience faster response times and smooth workflows, designed to keep your systems running at peak performance without extra effort.'
-						className='md:max-w-sm'
-					/>
+					<CardHeading heading={efficiency.title} description={efficiency.description} className='md:max-w-sm' />
 
 					<Image
 						src='/images/benefits/image.png'
@@ -105,14 +103,16 @@ export const BenefitsSection = (props: Props) => {
 					/>
 					<div className='absolute inset-0 z-10 size-full bg-gradient-to-t from-secondary from-25% to-secondary/0 md:bg-gradient-to-r lg:max-w-2xl' />
 				</Card>
-				<Card className='flex flex-col items-center justify-center gap-y-3 py-6 md:col-[2/3] md:row-[2/3] lg:col-[4/5] lg:row-[1/2]'>
-					<div className='relative z-10 flex w-max items-center justify-center rounded-full border-4 bg-gradient-primary p-8'>
-						<Icons.Rocket className='size-12 text-primary-foreground' />
-					</div>
-					<h3 className='relative z-10 text-center font-semibold leading-[1.1] text-primary'>Launch Your SAP Now</h3>
+				<Link href={'/#contact'} className='h-full md:col-[2/3] md:row-[2/3] lg:col-[4/5] lg:row-[1/2]'>
+					<Card className='flex h-full flex-col items-center justify-center gap-y-3 py-6'>
+						<div className='relative z-10 flex w-max items-center justify-center rounded-full border-4 bg-gradient-primary p-8'>
+							<Icons.Rocket className='size-12 text-primary-foreground' />
+						</div>
+						<h3 className='relative z-10 text-center font-semibold leading-[1.1] text-primary'>{cta}</h3>
 
-					<div className="absolute z-0 size-full bg-[url('/images/benefits/perlin-contour.png')] opacity-10" />
-				</Card>
+						<div className="absolute z-0 size-full bg-[url('/images/benefits/perlin-contour.png')] opacity-10" />
+					</Card>
+				</Link>
 			</div>
 		</section>
 	)

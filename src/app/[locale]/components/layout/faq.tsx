@@ -1,8 +1,12 @@
 import { SectionHeading } from '@/components/section-heading'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { MessageCircleQuestionIcon } from 'lucide-react'
+import { DeepRequired } from 'react-hook-form'
+import { Home } from '../../../../../sanity.types'
 
-type Props = {}
+type Props = {
+	translations: DeepRequired<Home>['faq']
+}
 
 const TEMP_FAQ = {
 	question: 'Lorem ipsum dolor sit amet?',
@@ -10,15 +14,17 @@ const TEMP_FAQ = {
 		'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec libero ultricies aliquet. Nullam nec purus nec libero'
 }
 
-export const FAQSection = (props: Props) => {
+export const FAQSection = ({ translations }: Props) => {
+	const { sectionHeading } = translations
+
 	return (
 		<section className='flex flex-col justify-between gap-x-16 gap-y-12 py-16 lg:flex-row'>
 			<SectionHeading
 				align='left'
-				heading='Frequently Asked Questions'
-				description='Get answers to our most commonly asked questions.'
+				heading={sectionHeading.title}
+				description={sectionHeading.description}
 				badge={{
-					text: 'FAQs',
+					text: sectionHeading.badge,
 					Icon: MessageCircleQuestionIcon
 				}}
 				className='lg:basis-1/2'

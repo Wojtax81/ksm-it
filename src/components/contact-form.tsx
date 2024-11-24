@@ -9,19 +9,34 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { ArrowRightIcon, Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { DeepRequired, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
+import { z } from 'zod'
+import { Home } from '../../sanity.types'
+import { MarkedText } from './marked-text'
 import H3 from './ui/typography/h3'
 
 type Props = {
 	heading?: string
+	translations: DeepRequired<Home>['contact']['form']
 }
 
-export const ContactForm = ({ heading }: Props) => {
+export const ContactForm = ({ heading, translations }: Props) => {
+	const { fields, notification, privacyPolicy, submit } = translations
+
+	const customErrorMap: z.ZodErrorMap = (error, ctx) => {
+		const field = error.path[0] as keyof typeof translations.fields
+
+		const errorMessage = translations.fields[field]?.error
+		if (errorMessage) return { message: errorMessage }
+
+		return { message: ctx.defaultError }
+	}
+
 	const [isPending, setIsPending] = useState(false)
 
 	const form = useForm<ContactEmailPayload>({
-		resolver: zodResolver(ContactEmailValidator),
+		resolver: zodResolver(ContactEmailValidator, { errorMap: customErrorMap }),
 		defaultValues: {
 			name: '',
 			email: '',
@@ -49,10 +64,11 @@ export const ContactForm = ({ heading }: Props) => {
 
 			if (!res.ok) throw new Error('Could not send email')
 
-			toast.success('Successfully sent the message')
+			toast.success(notification.success)
 			form.reset()
 		} catch (err) {
-			toast.error('Could not send the message')
+			console.log(err)
+			toast.error(notification.error)
 		}
 	}
 
@@ -74,7 +90,7 @@ export const ContactForm = ({ heading }: Props) => {
 							render={({ field }) => (
 								<FormItem className='grow'>
 									<FormControl>
-										<Input isForm {...field} label='Full name*' className='bg-secondary' />
+										<Input isForm {...field} label={fields.name.label} className='bg-secondary' />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -86,7 +102,7 @@ export const ContactForm = ({ heading }: Props) => {
 							render={({ field }) => (
 								<FormItem className='grow'>
 									<FormControl>
-										<Input isForm {...field} label='Phone' className='bg-secondary' />
+										<Input isForm {...field} label={fields.phone.label} className='bg-secondary' />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -100,7 +116,7 @@ export const ContactForm = ({ heading }: Props) => {
 						render={({ field }) => (
 							<FormItem className=''>
 								<FormControl>
-									<Input isForm {...field} label='Email*' className='bg-secondary' />
+									<Input isForm {...field} label={fields.email.label} className='bg-secondary' />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -113,7 +129,7 @@ export const ContactForm = ({ heading }: Props) => {
 						render={({ field }) => (
 							<FormItem>
 								<FormControl>
-									<Textarea {...field} label='Message*' className='h-full min-h-[120px] bg-secondary' />
+									<Textarea {...field} label={fields.message.label} className='h-full min-h-[120px] bg-secondary' />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -122,10 +138,14 @@ export const ContactForm = ({ heading }: Props) => {
 
 					<div className='flex flex-col-reverse gap-4 md:flex-col'>
 						<p className='text-sm text-muted-foreground'>
-							By filling out this form, you agree to our{' '}
-							<Link href={'/privacy-policy'} className='underline'>
-								Privacy Policy
-							</Link>
+							<MarkedText
+								text={privacyPolicy}
+								Wrapper={text => (
+									<Link href={'/privacy-policy'} key={'privacy-link'} className='font-medium hover:underline'>
+										{text}
+									</Link>
+								)}
+							/>
 						</p>
 
 						<Button
@@ -138,7 +158,7 @@ export const ContactForm = ({ heading }: Props) => {
 								{!isPending && <ArrowRightIcon className='!size-5' />}
 								{isPending && <Loader2 className='!size-5 animate-spin' />}
 							</div>
-							<span className='grow text-base font-medium leading-[1.1]'>Send The Message</span>
+							<span className='grow text-base font-medium leading-[1.1]'>{submit}</span>
 						</Button>
 					</div>
 				</form>

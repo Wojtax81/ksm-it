@@ -84,7 +84,7 @@ export default async function RootLayout({
 				{isDraftMode && <VisualEditing />}
 				<Toaster />
 				<SpeedInsights />
-				<LanguageChanger className='fixed left-2 top-2 rounded-md border bg-white/50 px-2 py-1 backdrop-blur-sm' />
+				<LanguageChanger className='fixed left-2 top-2 z-50 rounded-md border bg-white/50 px-2 py-1 backdrop-blur-sm' />
 				<SVGGradientEmbeds />
 			</body>
 		</html>

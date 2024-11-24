@@ -1,42 +1,51 @@
 import { SectionHeading } from '@/components/section-heading'
 import H3 from '@/components/ui/typography/h3'
 import { PackageOpenIcon } from 'lucide-react'
+import { DeepRequired } from 'react-hook-form'
 import PerformanceSVG from '../../../../../public/assets/performance.svg'
 import ServerProtectionSVG from '../../../../../public/assets/server-protection.svg'
 import ServersGroupSVG from '../../../../../public/assets/servers-group.svg'
+import { Home } from '../../../../../sanity.types'
 
-type Props = {}
+type Props = {
+	translations: DeepRequired<Home>['services']
+}
 
-const SERVICES = [
-	{
-		title: 'Basis Consulting',
-		description:
-			'Expert support for SAP Basis administration, ensuring your system is robust, efficient, and aligned with your business needs',
-		image: ServersGroupSVG
-	},
-	{
-		title: 'S/4HANA ® Migrations',
-		description:
-			'Seamlessly transition to S/4HANA with a guided migration process, minimizing downtime and preparing your system for future growth',
-		image: PerformanceSVG
-	},
-	{
-		title: 'Security & Backup',
-		description:
-			'Protect your data with comprehensive security solutions and reliable backups, ensuring your SAP environment is secure and resilient',
-		image: ServerProtectionSVG
-	}
-]
+export const ServicesSection = ({ translations }: Props) => {
+	const { cards, sectionHeading } = translations
 
-export const ServicesSection = (props: Props) => {
+	const images: { id: keyof typeof cards; image: any }[] = [
+		{
+			id: 'basisConsulting',
+			image: ServersGroupSVG
+		},
+		{
+			id: 's4Hana',
+			image: PerformanceSVG
+		},
+		{
+			id: 'security',
+			image: ServerProtectionSVG
+		}
+	]
+
+	const services = images.map(img => {
+		const content = cards[img.id]
+
+		return {
+			...content,
+			image: img.image
+		}
+	})
+
 	return (
 		<section id='services' className='scroll-m-20 space-y-12 py-16'>
 			<SectionHeading
 				align='center'
-				heading='The Foundation of Your Success'
-				description='Core services designed to strengthen, secure, and scale your systems'
+				heading={sectionHeading.title}
+				description={sectionHeading.description}
 				badge={{
-					text: 'Core Services',
+					text: sectionHeading.badge,
 					Icon: PackageOpenIcon,
 					variant: 'default'
 				}}
@@ -44,7 +53,7 @@ export const ServicesSection = (props: Props) => {
 			/>
 
 			<div className='grid gap-4 lg:grid-cols-3'>
-				{SERVICES.map((service, i) => (
+				{services.map((service, i) => (
 					<ServiceCard key={i} {...service} Image={service.image} />
 				))}
 			</div>

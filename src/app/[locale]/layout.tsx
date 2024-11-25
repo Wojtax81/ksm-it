@@ -51,9 +51,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
 	}
 }
 
-// export function generateStaticParams() {
-// 	return i18nConfig.locales.map(locale => ({ locale }))
-// }
+export function generateStaticParams() {
+	return i18nConfig.locales.map(locale => ({ locale }))
+}
 
 export default async function RootLayout({
 	children,

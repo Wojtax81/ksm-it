@@ -23,7 +23,7 @@ export const NotFoundClient = (props: Props) => {
 					</text>
 				</svg>
 				<p className='max-w-md text-center text-lg leading-tight text-muted-foreground lg:text-xl'>
-					We couldn't find the page you were looking for.
+					We couldn&apos;t find the page you were looking for.
 				</p>
 
 				<div className='mt-12 flex w-full max-w-sm flex-col items-center gap-4 sm:flex-row sm:justify-center'>

@@ -8,7 +8,9 @@ const homeFallback: DeepPartial<Home> = {
 			'Secure, optimize, and update your SAP systems with tailored solutions that boost performance and reduce downtime.',
 		badge: 'Over 500 Systems Installed',
 		cta: 'Boost Your System Now',
-		trustedBy: 'Trusted By 500+ Satisfied Customers'
+		trustedBy: {
+			heading: 'Trusted By'
+		}
 	},
 	services: {
 		sectionHeading: {

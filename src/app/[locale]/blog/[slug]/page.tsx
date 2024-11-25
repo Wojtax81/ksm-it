@@ -1,23 +1,23 @@
-import { defineQuery } from 'next-sanity'
-import type { Metadata, ResolvingMetadata } from 'next'
-import { type PortableTextBlock } from 'next-sanity'
-import Link from 'next/link'
-import { notFound } from 'next/navigation'
-import { Suspense } from 'react'
-
-import Avatar from '../../../../components/avatar'
-import CoverImage from '../../../../components/cover-image'
-import DateComponent from '../../../../components/date'
-import MoreStories from '../../../../components/more-stories'
-import PortableText from '../../../../components/portable-text'
-
-import * as demo from '@/sanity/lib/demo'
+import MoreStories from '@/components/blog/more-stories'
+import { PlaceholderImage } from '@/components/placeholder-image'
+import { StructuredData } from '@/components/structured-data'
+import H2 from '@/components/ui/typography/h2'
+import { Locales } from '@/i18nConfig'
+import { generateBlogPostStructuredData } from '@/lib/structuredData'
+import { generateAlternates } from '@/lib/utils'
 import { sanityFetch } from '@/sanity/lib/fetch'
 import { postQuery, settingsQuery } from '@/sanity/lib/queries'
-import { resolveOpenGraphImage } from '@/sanity/lib/utils'
+import { resolveOpenGraphImage, urlForImage } from '@/sanity/lib/utils'
+import type { Metadata, ResolvingMetadata } from 'next'
+import { defineQuery, type PortableTextBlock } from 'next-sanity'
+import Image from 'next/image'
+import { notFound } from 'next/navigation'
+import { Suspense } from 'react'
+import DateComponent from '../../../../components/date'
+import PortableText from '../../../../components/portable-text'
 
 type Props = {
-	params: Promise<{ slug: string }>
+	params: Promise<{ slug: string; locale: Locales }>
 }
 
 const postSlugs = defineQuery(`*[_type == "post" && defined(slug.current)]{"slug": slug.current}`)
@@ -31,9 +31,11 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
+	const { slug } = await params
+
 	const post = await sanityFetch({
 		query: postQuery,
-		params,
+		params: { slug },
 		stega: false
 	})
 	const previousImages = (await parent).openGraph?.images || []
@@ -45,14 +47,17 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
 		description: post?.excerpt,
 		openGraph: {
 			images: ogImage ? [ogImage, ...previousImages] : previousImages
-		}
+		},
+		alternates: generateAlternates(`/blog/${post?.slug}`)
 	} satisfies Metadata
 }
 
 export default async function PostPage({ params }: Props) {
+	const { locale, slug } = await params
+
 	const [post, settings] = await Promise.all([
-		sanityFetch({ query: postQuery, params }),
-		sanityFetch({ query: settingsQuery })
+		sanityFetch({ query: postQuery, params: { slug } }),
+		sanityFetch({ query: settingsQuery, params: { language: locale } })
 	])
 
 	if (!post?._id) {
@@ -60,43 +65,43 @@ export default async function PostPage({ params }: Props) {
 	}
 
 	return (
-		<div className='container mx-auto px-5'>
-			<h2 className='mb-16 mt-10 text-2xl font-bold leading-tight tracking-tight md:text-4xl md:tracking-tighter'>
-				<Link href='/' className='hover:underline'>
-					{settings?.title || demo.title}
-				</Link>
-			</h2>
+		<main className='grid-container pt-24 md:pt-32'>
+			<StructuredData data={generateBlogPostStructuredData(post as any)} />
 			<article>
-				<h1 className='text-balance mb-12 text-6xl font-bold leading-tight tracking-tighter md:text-7xl md:leading-none lg:text-8xl'>
+				<div className='mb-4 text-base'>
+					<DateComponent dateString={post.date} locale={locale} />
+				</div>
+
+				<h1 className='mb-12 text-balance text-4xl font-bold leading-tight tracking-tighter sm:text-6xl md:text-7xl md:leading-none lg:text-8xl'>
 					{post.title}
 				</h1>
-				<div className='hidden md:mb-12 md:block'>
-					{post.author && <Avatar name={post.author.name} picture={post.author.picture} />}
+
+				<div className='mb-8 aspect-[4/3] h-auto w-full overflow-hidden rounded-3xl sm:mx-0 md:mb-16 md:aspect-[2/1]'>
+					{post.coverImage?.asset?._ref ? (
+						<Image
+							className='size-full object-cover'
+							width={1400}
+							height={800}
+							alt={post.coverImage?.alt || ''}
+							src={urlForImage(post.coverImage)?.height(1000).width(2000).url() as string}
+							priority
+						/>
+					) : (
+						<PlaceholderImage className='size-full' />
+					)}
 				</div>
-				<div className='mb-8 sm:mx-0 md:mb-16'>
-					<CoverImage image={post.coverImage} priority />
-				</div>
-				<div className='mx-auto max-w-2xl'>
-					<div className='mb-6 block md:hidden'>
-						{post.author && <Avatar name={post.author.name} picture={post.author.picture} />}
-					</div>
-					<div className='mb-6 text-lg'>
-						<div className='mb-4 text-lg'>
-							<DateComponent dateString={post.date} />
-						</div>
-					</div>
-				</div>
+
 				{post.content?.length && (
 					<PortableText className='mx-auto max-w-2xl' value={post.content as PortableTextBlock[]} />
 				)}
 			</article>
 			<aside>
 				<hr className='border-accent-2 mb-24 mt-28' />
-				<h2 className='mb-8 text-6xl font-bold leading-tight tracking-tighter md:text-7xl'>Recent Stories</h2>
+				<H2 className='mb-8'>{settings?.post?.recentArticlesHeading || 'Recent Articles'}</H2>
 				<Suspense>
-					<MoreStories skip={post._id} limit={2} />
+					<MoreStories skip={post._id} limit={3} />
 				</Suspense>
 			</aside>
-		</div>
+		</main>
 	)
 }

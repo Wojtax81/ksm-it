@@ -8,20 +8,35 @@
  *
  */
 
-import { PortableText, type PortableTextBlock, type PortableTextComponents } from 'next-sanity';
+import { PortableText, type PortableTextBlock, type PortableTextComponents } from 'next-sanity'
+import Link from 'next/link'
 
 export default function CustomPortableText({ className, value }: { className?: string; value: PortableTextBlock[] }) {
 	const components: PortableTextComponents = {
+		list: {
+			bullet: ({ children }) => (
+				<ul className='prose prose-invert my-2.5 list-inside list-disc text-foreground'>{children}</ul>
+			),
+			number: ({ children }) => (
+				<ol className='prose prose-invert my-2.5 list-inside list-decimal text-foreground'>{children}</ol>
+			)
+		},
 		block: {
 			h5: ({ children }) => <h5 className='mb-2 text-sm font-semibold'>{children}</h5>,
-			h6: ({ children }) => <h6 className='mb-1 text-xs font-semibold'>{children}</h6>
+			h6: ({ children }) => <h6 className='mb-1 text-xs font-semibold'>{children}</h6>,
+			blockquote: ({ children }) => <blockquote className='border-l-primary text-foreground'>{children}</blockquote>
 		},
 		marks: {
-			link: ({ children, value }) => {
+			link: ({ value, children }) => {
+				const target = (value?.href || '').startsWith('http') ? '_blank' : undefined
 				return (
-					<a href={value?.href} rel='noreferrer noopener'>
+					<Link
+						href={value?.href}
+						target={target}
+						rel={target === '_blank' ? 'noopener' : undefined}
+						className='font-semibold text-foreground hover:underline'>
 						{children}
-					</a>
+					</Link>
 				)
 			}
 		}

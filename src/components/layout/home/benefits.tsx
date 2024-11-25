@@ -7,8 +7,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { DeepRequired } from 'react-hook-form'
-import Wordmark from '../../../../../public/assets/brand/wordmark.svg'
-import { Home } from '../../../../../sanity.types'
+import Wordmark from '../../../../public/assets/brand/wordmark.svg'
+import { Home } from '../../../../sanity.types'
 
 type Props = {
 	translations: DeepRequired<Home>['benefits']

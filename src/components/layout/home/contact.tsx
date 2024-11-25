@@ -3,7 +3,7 @@ import { SectionHeading } from '@/components/section-heading'
 import H3 from '@/components/ui/typography/h3'
 import { LucideIcon, MailIcon, MapPinIcon, PhoneIcon } from 'lucide-react'
 import { DeepRequired } from 'react-hook-form'
-import { Home } from '../../../../../sanity.types'
+import { Home } from '../../../../sanity.types'
 
 type Props = {
 	translations: DeepRequired<Home>['contact']

@@ -1,9 +1,8 @@
-
 type Props = {
 	name: string
 	email: string
 	message: string
-	phone: string
+	phone: string | undefined
 }
 
 const ContactEmailTemplate = ({ email, message, name, phone }: Props) => {
@@ -43,9 +42,11 @@ const ContactEmailTemplate = ({ email, message, name, phone }: Props) => {
 									<h2 style={{ fontWeight: 200, fontSize: '16px', margin: '20px 0', color: '#333333' }}>
 										Email: {email}
 									</h2>
-									<h2 style={{ fontWeight: 200, fontSize: '16px', margin: '20px 0', color: '#333333' }}>
-										Phone: {phone}
-									</h2>
+									{phone && (
+										<h2 style={{ fontWeight: 200, fontSize: '16px', margin: '20px 0', color: '#333333' }}>
+											Phone: {phone}
+										</h2>
+									)}
 									<h2
 										style={{
 											fontWeight: 200,

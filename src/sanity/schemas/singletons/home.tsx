@@ -46,8 +46,36 @@ export default defineType({
 				{
 					name: 'trustedBy',
 					title: 'Trusted by',
-					type: 'string',
-					validation: Rule => Rule.required()
+					type: 'object',
+					fields: [
+						{
+							name: 'heading',
+							title: 'Heading',
+							type: 'string',
+							validation: Rule => Rule.required()
+						},
+						{
+							name: 'logos',
+							title: 'Logos',
+							type: 'array',
+							of: [
+								{
+									type: 'image',
+									fields: [
+										defineField({
+											name: 'company',
+											description: 'Name of the company',
+											title: 'Company name',
+											type: 'string',
+											validation: rule => rule.required()
+										})
+									],
+									description: 'Best at height of 100px'
+								}
+							],
+							validation: Rule => Rule.required()
+						}
+					]
 				}
 			],
 			validation: Rule => Rule.required(),

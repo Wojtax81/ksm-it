@@ -1,7 +1,19 @@
 import { CogIcon } from '@sanity/icons'
 import { defineArrayMember, defineField, defineType } from 'sanity'
 
-import * as demo from '../../lib/demo'
+// We have a type called pageMetadata that we can use to define the metadata for a page.
+// Settings structure:
+// Home:
+//  - Metadata
+
+// Blog:
+//  - Metadata
+//  - Heading
+//  - Description
+
+// Post:
+//  - Metadata
+//  - Recent Articles Heading
 
 export default defineType({
 	name: 'settings',
@@ -10,71 +22,16 @@ export default defineType({
 	icon: CogIcon,
 	fields: [
 		defineField({
-			name: 'title',
-			description: 'This field is the title of your blog.',
-			title: 'Title',
+			name: 'language',
 			type: 'string',
-			initialValue: demo.title,
+			readOnly: true,
+			hidden: true
+		}),
+		defineField({
+			name: 'metadata',
+			title: 'Metadata',
+			type: 'pageMetadata',
 			validation: rule => rule.required()
-		}),
-		defineField({
-			name: 'description',
-			description: 'Used both for the <meta> description tag for SEO, and the blog subheader.',
-			title: 'Description',
-			type: 'array',
-			initialValue: demo.description,
-			of: [
-				defineArrayMember({
-					type: 'block',
-					options: {},
-					styles: [],
-					lists: [],
-					marks: {
-						decorators: [],
-						annotations: [
-							defineField({
-								type: 'object',
-								name: 'link',
-								fields: [
-									{
-										type: 'string',
-										name: 'href',
-										title: 'URL',
-										validation: rule => rule.required()
-									}
-								]
-							})
-						]
-					}
-				})
-			]
-		}),
-		defineField({
-			name: 'footer',
-			description: 'This is a block of text that will be displayed at the bottom of the page.',
-			title: 'Footer Info',
-			type: 'array',
-			of: [
-				defineArrayMember({
-					type: 'block',
-					marks: {
-						annotations: [
-							{
-								name: 'link',
-								type: 'object',
-								title: 'Link',
-								fields: [
-									{
-										name: 'href',
-										type: 'url',
-										title: 'Url'
-									}
-								]
-							}
-						]
-					}
-				})
-			]
 		}),
 		defineField({
 			name: 'ogImage',
@@ -101,25 +58,58 @@ export default defineType({
 							return true
 						})
 					}
-				}),
-				defineField({
-					name: 'metadataBase',
-					type: 'url',
-					description: (
-						<a
-							href='https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase'
-							rel='noreferrer noopener'>
-							More information
-						</a>
-					)
 				})
 			]
+		}),
+		defineField({
+			name: 'blog',
+			title: 'Blog',
+			type: 'object',
+			fields: [
+				defineField({
+					name: 'metadata',
+					title: 'Metadata',
+					type: 'pageMetadata',
+					validation: rule => rule.required()
+				}),
+				defineField({
+					name: 'heading',
+					title: 'Heading',
+					type: 'string',
+					validation: rule => rule.required()
+				}),
+				defineField({
+					name: 'description',
+					title: 'Description',
+					type: 'text',
+					validation: rule => rule.required()
+				})
+			],
+			options: { collapsible: true }
+		}),
+		defineField({
+			name: 'post',
+			title: 'Blog Post',
+			type: 'object',
+			fields: [
+				defineField({
+					name: 'recentArticlesHeading',
+					title: 'Recent Articles Heading',
+					type: 'string',
+					validation: rule => rule.required()
+				})
+			],
+			options: { collapsible: true }
 		})
 	],
 	preview: {
-		prepare() {
+		select: {
+			language: 'language'
+		},
+		prepare({ language }) {
 			return {
-				title: 'Settings'
+				title: 'Settings',
+				subtitle: language
 			}
 		}
 	}

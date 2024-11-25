@@ -60,8 +60,8 @@ export const MobileMenu = ({ isNavActive, links }: { isNavActive: boolean; links
 								<Link
 									onClick={() => setIsOpen(false)}
 									href={link.href}
-									className='group flex items-center gap-4 rounded-md py-2 duration-300 hover:bg-secondary'>
-									<link.Icon className='h-5 w-5 text-muted-foreground duration-300 group-hover:text-neutral-200' />
+									className='group flex items-center gap-4 rounded-md py-2 pl-1 duration-300 hover:bg-secondary'>
+									<link.Icon className='h-5 w-5 text-muted-foreground' />
 									<span className='group-hover:text-secondary-foreground'>{link.label}</span>
 								</Link>
 							</React.Fragment>

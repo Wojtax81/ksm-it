@@ -7,7 +7,7 @@ import * as Tabs from '@radix-ui/react-tabs'
 import { ListOrderedIcon } from 'lucide-react'
 import Image from 'next/image'
 import { DeepRequired } from 'react-hook-form'
-import { Home } from '../../../../../sanity.types'
+import { Home } from '../../../../sanity.types'
 
 type Props = {
 	translations: DeepRequired<Home>['howItWorks']

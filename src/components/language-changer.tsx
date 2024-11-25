@@ -38,12 +38,12 @@ const LanguageChanger = ({ className }: Props) => {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<button className={cn('flex items-center gap-1 text-foreground', className)}>
+				<button className={cn('flex items-center gap-1 text-sm text-foreground', className)}>
 					<span className='uppercase'>{currentLocale}</span>
 					<ChevronDownIcon className='h-4 w-4' />
 				</button>
 			</DropdownMenuTrigger>
-			<DropdownMenuContent>
+			<DropdownMenuContent align='end' className='w-16 min-w-16'>
 				{locales.map(locale => (
 					<DropdownMenuItem
 						key={locale}

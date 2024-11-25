@@ -6,8 +6,10 @@ import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
-import { getNavLinks } from './get-links'
+import { useNavLinks } from './get-links'
 import { MobileMenu } from './mobile-menu'
+import LanguageChanger from '@/components/language-changer'
+import { Suspense } from 'react'
 
 type Props = {}
 
@@ -16,7 +18,7 @@ const Navbar = ({}: Props) => {
 	const { y } = useScrollPosition()
 	const isActive = y > 10
 
-	const allLinks = getNavLinks('en')
+	const allLinks = useNavLinks('en')
 
 	const links = allLinks.filter(link => !link.isCTA)
 	const cta = allLinks.find(link => link.isCTA)
@@ -49,11 +51,22 @@ const Navbar = ({}: Props) => {
 					/>
 				</Link>
 
-				<MobileMenu isNavActive={isActive} links={links} />
+				<div className='flex items-center gap-x-4 md:hidden'>
+					<Suspense>
+						<LanguageChanger
+							className={cn(
+								'z-50 flex md:hidden',
+								layoutSegment === null || isActive ? 'text-primary-foreground' : 'text-foreground'
+							)}
+						/>
+					</Suspense>
+
+					<MobileMenu isNavActive={isActive} links={links} />
+				</div>
 
 				<ul
 					className={cn(
-						'absolute-center hidden items-center justify-center gap-4 md:flex xl:gap-8',
+						'lg:absolute-center hidden items-center justify-center gap-4 md:flex xl:gap-8',
 						layoutSegment === null || isActive ? 'text-primary-foreground' : 'text-foreground'
 					)}>
 					{links.map((link, i) => (
@@ -64,13 +77,29 @@ const Navbar = ({}: Props) => {
 						</li>
 					))}
 				</ul>
-				{cta && (
-					<Link
-						href={cta?.href}
-						className={cn(buttonVariants({ variant: 'secondaryGradient' }), 'hidden border md:flex')}>
-						<span>{cta?.label}</span>
-					</Link>
-				)}
+				<div className='hidden items-center gap-x-6 md:flex'>
+					<Suspense>
+						<LanguageChanger
+							className={cn(
+								'z-50 hidden md:flex',
+								layoutSegment === null || isActive ? 'text-primary-foreground' : 'text-foreground'
+							)}
+						/>
+					</Suspense>
+
+					{cta && (
+						<Link
+							href={cta?.href}
+							className={cn(
+								buttonVariants({
+									variant: layoutSegment === null && !isActive ? 'secondaryGradient' : 'primaryGradient'
+								}),
+								'hidden md:flex'
+							)}>
+							<span>{cta?.label}</span>
+						</Link>
+					)}
+				</div>
 			</nav>
 		</header>
 	)

@@ -1,3 +1,4 @@
+import { languages } from '@/i18nConfig'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
@@ -50,4 +51,19 @@ export function deepMergeEmpty<T>(primary: T, fallback: T): T {
 export function getNestedValue<T, P extends string>(obj: T, path: P): Path<T, P> {
 	const keys = path.split('.') as (keyof T)[]
 	return keys.reduce((acc: any, key) => (acc && acc[key] !== undefined ? acc[key] : undefined), obj)
+}
+
+export function generateAlternates(path: string) {
+	const alternates = {
+		canonical: path,
+		languages: {} as Record<string, string>
+	}
+
+	languages.forEach(language => {
+		if (!language.isDefault) {
+			alternates.languages[language.id] = `/${language.id}${path}`
+		}
+	})
+
+	return alternates
 }

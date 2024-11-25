@@ -1,16 +1,36 @@
+import { siteConfig } from '@/config/site'
 import { Locales } from '@/i18nConfig'
-import { sanityFetch } from '@/sanity/lib/fetch'
-import { homeQuery } from '@/sanity/lib/queries'
-import { HeroSection } from './components/layout/hero'
-import { ServicesSection } from './components/layout/services'
-import { HowItWorksSection } from './components/layout/how-it-works'
-import { FAQSection } from './components/layout/faq'
-import { ContactSection } from './components/layout/contact'
-import { BenefitsSection } from './components/layout/benefits'
 import { fallbackTranslations } from '@/lib/fallbackContent'
+import { generateAlternates } from '@/lib/utils'
+import { sanityFetch } from '@/sanity/lib/fetch'
+import { homeQuery, settingsQuery } from '@/sanity/lib/queries'
+import { Metadata } from 'next'
+import { BenefitsSection } from '../../components/layout/home/benefits'
+import { ContactSection } from '../../components/layout/home/contact'
+import { FAQSection } from '../../components/layout/home/faq'
+import { HeroSection } from '../../components/layout/home/hero'
+import { HowItWorksSection } from '../../components/layout/home/how-it-works'
+import { ServicesSection } from '../../components/layout/home/services'
 
 type Props = {
-	params: { locale: Locales }
+	params: Promise<{ locale: Locales }>
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+	const { locale } = await params
+
+	const settings = await sanityFetch({
+		query: settingsQuery,
+		params: { language: locale },
+		// Metadata should never contain stega
+		stega: false
+	})
+
+	return {
+		title: `${settings?.metadata?.title} | ${siteConfig.name}`,
+		description: settings?.metadata?.description || undefined,
+		alternates: generateAlternates('/')
+	}
 }
 
 export default async function Page({ params }: Props) {
@@ -28,7 +48,7 @@ export default async function Page({ params }: Props) {
 	const content = fallbackTranslations('home', home)
 
 	return (
-		<main className='grid-container min-h-screen'>
+		<main className='grid-container min-h-screen overflow-hidden'>
 			<div className='container-fill grid-container overflow-hidden bg-gradient-primary'>
 				<HeroSection translations={content.hero} />
 

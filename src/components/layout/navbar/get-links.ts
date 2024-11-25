@@ -45,7 +45,7 @@ export type NavLink = {
 	isCTA?: boolean
 }
 
-export const getNavLinks = (locale: Locales): NavLink[] => {
+export const useNavLinks = (locale: Locales): NavLink[] => {
 	const { $t } = useIntl()
 
 	return rawLinks.map(link => {

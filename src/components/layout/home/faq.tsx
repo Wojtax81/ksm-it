@@ -4,7 +4,7 @@ import { sanityFetch } from '@/sanity/lib/fetch'
 import { faqQuery } from '@/sanity/lib/queries'
 import { MessageCircleQuestionIcon } from 'lucide-react'
 import { DeepRequired } from 'react-hook-form'
-import { Home } from '../../../../../sanity.types'
+import { Home } from '../../../../sanity.types'
 
 type Props = {
 	translations: DeepRequired<Home>['faq']
@@ -31,7 +31,7 @@ export const FAQSection = async ({ translations }: Props) => {
 			/>
 
 			<div className='max-w-2xl grow rounded-2xl border bg-secondary px-4 lg:max-w-xl lg:basis-1/2'>
-				<FAQBlock faqs={faqs} />
+				<FAQBlock faqs={faqs as any} />
 			</div>
 		</section>
 	)

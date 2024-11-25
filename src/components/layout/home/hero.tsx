@@ -6,9 +6,9 @@ import { cn } from '@/lib/utils'
 import { BlocksIcon } from 'lucide-react'
 import Link from 'next/link'
 import { DeepRequired } from 'react-hook-form'
-import ServerDecoSVG from '../../../../../public/assets/server-double.svg'
-import { Home } from '../../../../../sanity.types'
-import { TrustedBy } from '../../../../components/trusted-by-slider'
+import ServerDecoSVG from '../../../../public/assets/server-double.svg'
+import { Home } from '../../../../sanity.types'
+import { TrustedBy } from '../../trusted-by-slider'
 
 type Props = {
 	translations: DeepRequired<Home>['hero']
@@ -41,7 +41,7 @@ export const HeroSection = ({ translations }: Props) => {
 				</Link>
 			</div>
 
-			<TrustedBy label={trustedBy} className='relative z-10' />
+			<TrustedBy heading={trustedBy.heading} logos={trustedBy.logos} className='relative z-10' />
 
 			<div className='absolute bottom-0 left-0 z-0 size-[80vw] min-h-[450px] min-w-[450px] translate-x-[-20%] translate-y-[-20%] -rotate-[20deg] opacity-[0.03] md:top-0 xl:size-[65vw]'>
 				<ServerDecoSVG width='100%' height='100%' />

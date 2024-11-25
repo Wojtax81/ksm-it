@@ -22,6 +22,10 @@ const homeLocation = {
 	title: 'Home',
 	href: '/'
 } satisfies DocumentLocation
+const blogLocation = {
+	title: 'Blog',
+	href: '/blog'
+} satisfies DocumentLocation
 
 export default defineConfig({
 	basePath: studioUrl,
@@ -34,11 +38,11 @@ export default defineConfig({
 		documentInternationalization({
 			// Required configuration
 			supportedLanguages: languages,
-			schemaTypes: ['home']
+			schemaTypes: ['home', 'settings', 'privacyPolicy']
 		}),
 		internationalizedArray({
 			languages: languages,
-			fieldTypes: ['string', 'text', 'number', 'faqAnswer']
+			fieldTypes: ['string', 'text', 'number', 'faqAnswer', 'pageMetadata']
 		}),
 		presentationTool({
 			resolve: {
@@ -49,6 +53,9 @@ export default defineConfig({
 					}
 				]),
 				locations: {
+					home: defineLocations({
+						locations: [homeLocation]
+					}),
 					settings: defineLocations({
 						locations: [homeLocation],
 						message: 'This document is used on all pages',
@@ -65,7 +72,8 @@ export default defineConfig({
 									title: doc?.title || 'Untitled',
 									href: resolveHref('post', doc?.slug)!
 								},
-								homeLocation
+								homeLocation,
+								blogLocation
 							]
 						})
 					})
@@ -73,7 +81,7 @@ export default defineConfig({
 			},
 			previewUrl: { previewMode: { enable: '/api/draft-mode/enable' } }
 		}),
-		structureTool({ structure: pageStructure([settings]) }),
+		structureTool({ structure: pageStructure([]) }),
 		// Configures the global "new document" button, and document actions, to suit the Settings document singleton
 		singletonPlugin([settings.name, home.name]),
 		// Add an image asset source for Unsplash

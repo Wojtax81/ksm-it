@@ -129,7 +129,12 @@ export const ContactForm = ({ heading, translations }: Props) => {
 						render={({ field }) => (
 							<FormItem>
 								<FormControl>
-									<Textarea {...field} label={fields.message.label} className='h-full min-h-[120px] bg-secondary' />
+									<Textarea
+										isForm
+										{...field}
+										label={fields.message.label}
+										className='h-full min-h-[120px] bg-secondary'
+									/>
 								</FormControl>
 								<FormMessage />
 							</FormItem>

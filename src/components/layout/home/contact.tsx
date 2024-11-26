@@ -2,6 +2,7 @@ import { ContactForm } from '@/components/contact-form'
 import { SectionHeading } from '@/components/section-heading'
 import H3 from '@/components/ui/typography/h3'
 import { LucideIcon, MailIcon, MapPinIcon, PhoneIcon } from 'lucide-react'
+import Image from 'next/image'
 import { DeepRequired } from 'react-hook-form'
 import { Home } from '../../../../sanity.types'
 
@@ -56,7 +57,15 @@ export const ContactSection = ({ translations }: Props) => {
 
 			<div className='grid gap-x-16 gap-y-12 lg:grid-cols-2 xl:gap-x-24'>
 				<ContactForm heading={form.title} translations={form} />
-				<div className='rounded-2xl border bg-secondary'></div>
+				<div className='relative rounded-2xl border bg-secondary'>
+					<Image
+						src={'/images/contact/form-deco.png'}
+						alt=''
+						width={1000}
+						height={1000}
+						className='size-full object-cover'
+					/>
+				</div>
 			</div>
 		</section>
 	)

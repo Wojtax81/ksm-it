@@ -76,14 +76,14 @@ export default async function PostPage({ params }: Props) {
 					{post.title}
 				</h1>
 
-				<div className='mb-8 aspect-[4/3] h-auto w-full overflow-hidden rounded-3xl sm:mx-0 md:mb-16 md:aspect-[2/1]'>
+				<div className='mb-8 aspect-[4/3] h-auto w-full overflow-hidden rounded-3xl border sm:mx-0 md:mb-16 md:aspect-[2/1]'>
 					{post.coverImage?.asset?._ref ? (
 						<Image
 							className='size-full object-cover'
 							width={1400}
 							height={800}
 							alt={post.coverImage?.alt || ''}
-							src={urlForImage(post.coverImage)?.height(1000).width(2000).url() as string}
+							src={urlForImage(post.coverImage)?.height(800).width(1400).quality(100).url() as string}
 							priority
 						/>
 					) : (

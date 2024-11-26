@@ -47,11 +47,12 @@ export const HowItWorksSection = ({ translations }: Props) => {
 										width={1000}
 										height={1000}
 										alt={''}
-										src={urlForImage(item.image)?.height(1000).width(1000).url() as string}
+										src={urlForImage(item.image)?.width(1000).quality(100).url() as string}
 									/>
 								) : (
 									<PlaceholderImage className='absolute inset-0 size-full border-none' />
 								)}
+								<div className='absolute inset-0 z-10 size-full bg-[radial-gradient(var(--tw-gradient-stops))] from-primary/0 to-primary/75' />
 							</div>
 						</Tabs.Content>
 					))}

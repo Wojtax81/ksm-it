@@ -1,4 +1,4 @@
 export const siteConfig = {
 	name: 'KSM IT Solutions',
-	email: 'hello@mateuszhada.com'
+	email: 'wk@ksm-it.de'
 }

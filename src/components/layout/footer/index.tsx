@@ -29,6 +29,7 @@ const FOOTER_LINKS = [
 
 export const Footer = async ({ locale }: Props) => {
 	const { $t } = await getIntl(locale)
+	const year = new Date().getFullYear()
 
 	return (
 		<FooterWrapper>
@@ -78,7 +79,10 @@ export const Footer = async ({ locale }: Props) => {
 							className='text-xs text-muted-foreground decoration-background hover:text-background hover:underline'>
 							{$t({ id: 'madeBy', defaultMessage: 'Made by' })} <span className='font-semibold'>Mateusz Hada</span>
 						</Link>
-						<p>© 2024 KSM IT Solutions. All rights reserved.</p>
+						<p>
+							© {year ?? '2024'} KSM IT Solutions.{' '}
+							{$t({ id: 'footer.allRightsReserved', defaultMessage: 'All rights reserved.' })}
+						</p>
 					</div>
 				</div>
 			</footer>

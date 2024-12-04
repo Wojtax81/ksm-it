@@ -69,7 +69,7 @@ export const MobileMenu = ({ isNavActive, links }: { isNavActive: boolean; links
 					</div>
 
 					<div className='mt-auto'>
-						<Link href={siteConfig.email}>{siteConfig.email}</Link>
+						<Link href={`mailto:${siteConfig.email}`}>{siteConfig.email}</Link>
 					</div>
 				</SheetContent>
 			</Sheet>

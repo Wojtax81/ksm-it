@@ -5,6 +5,8 @@ import { ContactEmailValidator } from '@/lib/validators/contactForm'
 import { render } from '@react-email/render'
 import { z } from 'zod'
 
+const EMAIL = process.env.NODEMAILER_EMAIL || siteConfig.email
+
 export async function POST(req: Request) {
 	try {
 		const body = await req.json()
@@ -15,8 +17,8 @@ export async function POST(req: Request) {
 		const emailHtml = await render(ContactEmailTemplate({ name, email, message, phone }))
 
 		const data = await mailTransporter.sendMail({
-			from: siteConfig.email,
-			to: siteConfig.email,
+			from: EMAIL,
+			to: EMAIL,
 			subject: `Contact form - ${email}`,
 			text: plainText,
 			html: emailHtml

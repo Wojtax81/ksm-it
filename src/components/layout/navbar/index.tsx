@@ -1,15 +1,15 @@
 'use client'
 
+import LanguageChanger from '@/components/language-changer'
 import { buttonVariants } from '@/components/ui/button'
 import { useScrollPosition } from '@/hooks/useScrollPosition'
 import { cn } from '@/lib/utils'
-import Image from 'next/image'
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
+import { Suspense } from 'react'
+import Wordmark from '../../../../public/assets/brand/wordmark.svg'
 import { useNavLinks } from './get-links'
 import { MobileMenu } from './mobile-menu'
-import LanguageChanger from '@/components/language-changer'
-import { Suspense } from 'react'
 
 type Props = {}
 
@@ -38,16 +38,8 @@ const Navbar = ({}: Props) => {
 					)}
 				/>
 				<Link href={'/'} className='z-50 w-max'>
-					<Image
-						src={'/assets/brand/wordmark.svg'}
-						alt='Logo KSM IT Solutions'
-						width={500}
-						height={500}
-						priority
-						className={cn(
-							'h-6 w-auto max-w-full duration-300 sm:h-8',
-							(layoutSegment === null || isActive) && 'invert'
-						)}
+					<Wordmark
+						className={cn('h-8 w-auto lg:h-10', (layoutSegment === null || isActive) && 'text-primary-foreground')}
 					/>
 				</Link>
 

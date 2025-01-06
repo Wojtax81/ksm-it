@@ -1,8 +1,8 @@
 import { siteConfig } from '@/config/site'
+import { Locales } from '@/i18nConfig'
+import getIntl from '@/intl'
 import Link from 'next/link'
 import Wordmark from '../../../../public/assets/brand/wordmark.svg'
-import getIntl from '@/intl'
-import { Locales } from '@/i18nConfig'
 import { FooterWrapper } from './wrapper'
 
 type Props = {
@@ -38,7 +38,7 @@ export const Footer = async ({ locale }: Props) => {
 					<div className='mb-16 flex flex-col flex-wrap gap-x-12 gap-y-12 md:justify-between lg:mb-20 lg:flex-row'>
 						<div>
 							<div>
-								<Wordmark className='h-16 w-auto lg:h-[4.5rem]' />
+								<Wordmark className='h-20 w-auto lg:h-24' />
 							</div>
 							<p className='mb-6 mt-4 max-w-xs text-muted-foreground'>{$t({ id: 'footer.motto' })}</p>
 							<Link href={`mailto:${siteConfig.email}`} className='text-lg hover:underline'>
